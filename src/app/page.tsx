@@ -10,7 +10,7 @@ import {
   Html,
   Line,
 } from "@react-three/drei";
-import { Suspense, useRef, ReactNode, useMemo, useEffect } from "react";
+import { Suspense, useRef, ReactNode, useMemo, useEffect, useState } from "react";
 import type { NextPage } from "next";
 import dynamic from 'next/dynamic';
 
@@ -120,6 +120,7 @@ const RotatingPlanet: React.FC<RotatingPlanetProps> = ({
   revolutionSpeed,
   orbitDistance,
 }) => {
+  const [hovered, setHovered] = useState(false);
   const revolutionRef = useRef<THREE.Group>(null);
   const rotationRef = useRef<THREE.Group>(null);
 
@@ -132,7 +133,7 @@ const RotatingPlanet: React.FC<RotatingPlanetProps> = ({
     <group ref={revolutionRef}>
       <Orbit radius={orbitDistance} />
       <group ref={rotationRef} position={[orbitDistance, 0, 0]}>
-        <mesh>
+        <mesh scale={hovered ? 1.5 : 1} onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)}>
           {children}
         </mesh>
       </group>
